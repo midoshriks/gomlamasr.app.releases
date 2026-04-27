@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تحميل نسخة التطبيق</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0d0f14;
+        --surface: #161920;
+        --card: #1c2030;
+        --border: #2a2f42;
+        --accent: #4f8ef7;
+        --accent2: #7c5cfc;
+        --green: #22c55e;
+        --orange: #f97316;
+        --text: #e8eaf0;
+        --muted: #7b82a0;
+        --radius: 14px;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Cairo", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 20px 60px;
+      }
+
+      /* ── Header ── */
+      header {
+        text-align: center;
+        margin-bottom: 48px;
+        animation: fadeDown 0.6s ease both;
+      }
+
+      .app-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        border-radius: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 18px;
+        font-size: 36px;
+        box-shadow: 0 8px 32px rgba(79, 142, 247, 0.35);
+      }
+
+      header h1 {
+        font-size: 2rem;
+        font-weight: 900;
+        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, #fff 40%, var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      header p {
+        color: var(--muted);
+        margin-top: 8px;
+        font-size: 0.95rem;
+      }
+
+      /* ── Releases list ── */
+      .releases {
+        width: 100%;
+        max-width: 680px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .release-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 22px 24px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        animation: fadeUp 0.5s ease both;
+        transition:
+          border-color 0.2s,
+          transform 0.2s;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .release-card:hover {
+        border-color: var(--accent);
+        transform: translateY(-2px);
+      }
+
+      /* latest badge */
+      .release-card.latest::before {
+        content: "أحدث نسخة";
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: var(--green);
+        color: #fff;
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 3px 12px;
+        border-radius: 0 0 var(--radius) 0;
+      }
+
+      .file-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        flex-shrink: 0;
+      }
+
+      .file-icon.apk {
+        background: rgba(34, 197, 94, 0.15);
+        color: var(--green);
+      }
+      .file-icon.aab {
+        background: rgba(79, 142, 247, 0.15);
+        color: var(--accent);
+      }
+
+      .release-info {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .release-info h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 6px;
+        flex-wrap: wrap;
+      }
+
+      .badge {
+        font-size: 0.72rem;
+        font-weight: 700;
+        padding: 2px 10px;
+        border-radius: 20px;
+      }
+
+      .badge.version {
+        background: rgba(79, 142, 247, 0.18);
+        color: var(--accent);
+      }
+      .badge.apk {
+        background: rgba(34, 197, 94, 0.18);
+        color: var(--green);
+      }
+      .badge.aab {
+        background: rgba(124, 92, 252, 0.18);
+        color: var(--accent2);
+      }
+      .badge.size {
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--muted);
+      }
+
+      .release-date {
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+
+      .release-notes {
+        font-size: 0.82rem;
+        color: var(--muted);
+        margin-top: 6px;
+        line-height: 1.5;
+      }
+
+      .download-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 18px;
+        font-family: "Cairo", sans-serif;
+        font-size: 0.9rem;
+        font-weight: 700;
+        cursor: pointer;
+        text-decoration: none;
+        white-space: nowrap;
+        transition:
+          opacity 0.2s,
+          transform 0.15s;
+        flex-shrink: 0;
+      }
+
+      .download-btn:hover {
+        opacity: 0.88;
+        transform: scale(1.03);
+      }
+
+      /* ── Empty state ── */
+      .empty {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--muted);
+      }
+      .empty .icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+      }
+      .empty p {
+        font-size: 1rem;
+      }
+
+      /* ── Footer ── */
+      footer {
+        margin-top: 56px;
+        color: var(--muted);
+        font-size: 0.8rem;
+        text-align: center;
+      }
+
+      /* ── Animations ── */
+      @keyframes fadeDown {
+        from {
+          opacity: 0;
+          transform: translateY(-16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="app-icon">📦</div>
+      <h1>اسم جملة مصر</h1>
+      <p>نسخ الاختبار الداخلي — قبل الرفع على Google Play</p>
+    </header>
+
+    <div class="releases" id="releases-list">
+      <!-- يتم توليد البطاقات من releases.json -->
+      <div class="empty">
+        <div class="icon">⏳</div>
+        <p>جاري تحميل النسخ...</p>
+      </div>
+    </div>
+
+    <footer>
+      <p>هذه الصفحة للاختبار الداخلي فقط · لا تشارك الرابط خارج الفريق</p>
+    </footer>
+
+    <script>
+      const svgDownload = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/>
+      <line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>`;
+
+      function loadReleases() {
+        const data = {
+          appName: "جملة مصر",
+          releases: [
+            {
+              name: "نسخة Debug",
+              file: "files/app-debug.apk",
+              version: "1.0.0",
+              type: "apk",
+              size: "",
+              date: "27 أبريل 2026",
+              notes: "نسخة تجريبية للاختبار",
+            },
+            {
+              name: "Bundle - Google Play",
+              file: "files/app-release.aab",
+              version: "1.0.0",
+              type: "aab",
+              size: "",
+              date: "27 أبريل 2026",
+              notes: "جاهزة للرفع على Google Play",
+            },
+          ],
+        };
+        render(data);
+      }
+
+      function render({ appName, releases }) {
+        if (appName) {
+          document.querySelector("header h1").textContent = appName;
+          document.title = "تحميل — " + appName;
+        }
+
+        const list = document.getElementById("releases-list");
+
+        if (!releases || releases.length === 0) {
+          list.innerHTML = `<div class="empty"><div class="icon">📭</div><p>لا توجد نسخ بعد</p></div>`;
+          return;
+        }
+
+        list.innerHTML = releases
+          .map((r, i) => {
+            const typeClass = r.type === "aab" ? "aab" : "apk";
+            const typeEmoji = r.type === "aab" ? "📦" : "🤖";
+            const isLatest = i === 0;
+
+            return `
+        <div class="release-card ${isLatest ? "latest" : ""}" style="animation-delay:${i * 0.08}s">
+          <div class="file-icon ${typeClass}">${typeEmoji}</div>
+          <div class="release-info">
+            <h3>${r.name || r.file}</h3>
+            <div class="meta">
+              <span class="badge version">v${r.version}</span>
+              <span class="badge ${typeClass}">${r.type?.toUpperCase()}</span>
+              ${r.size ? `<span class="badge size">${r.size}</span>` : ""}
+              <span class="release-date">${r.date || ""}</span>
+            </div>
+            ${r.notes ? `<p class="release-notes">${r.notes}</p>` : ""}
+          </div>
+          <a class="download-btn" href="${r.file}" download>
+            ${svgDownload} تحميل
+          </a>
+        </div>`;
+          })
+          .join("");
+      }
+
+      loadReleases();
+    </script>
+  </body>
+</html>
